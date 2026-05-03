@@ -6,19 +6,19 @@
 package tlc2.value.impl;
 
 import java.util.Enumeration;
+import java.util.HashSet;
 
 import tlc2.util.Vect;
 import tlc2.value.IMVPerm;
 import tlc2.value.IValue;
 import util.Assert;
-import util.Set;
 
 public abstract class MVPerms {
   
   public static final IMVPerm[] permutationSubgroup(final Enumerable enumerable) {
     final ValueEnumeration Enum = enumerable.elements();
 	final int sz = enumerable.size() - 1;
-    final Set perms = new Set(sz);
+    final HashSet<IMVPerm> perms = new HashSet<>(sz);
     final Vect<IMVPerm> permVec = new Vect<>(sz);
     // Compute the group generators:
     Value elem;
@@ -38,7 +38,7 @@ public abstract class MVPerms {
 	  Assert.fail("Symmetry function must have model values as domain and range.");
 	}
       }
-      if (perm.size() > 0 && perms.put(perm) == null) {
+      if (perm.size() > 0 && perms.add(perm)) {
 	permVec.addElement(perm);
       }
     }
@@ -51,7 +51,7 @@ public abstract class MVPerms {
 	final IMVPerm perm1 = (IMVPerm)permVec.elementAt(i);
 	for (int j = sz0; j < sz1; j++) {
 		IMVPerm perm = perm1.compose((IMVPerm)permVec.elementAt(j));
-	  if (perm.size() > 0 && perms.put(perm) == null) {
+	  if (perm.size() > 0 && perms.add(perm)) {
 	    permVec.addElement(perm);
 	  }
 	}
